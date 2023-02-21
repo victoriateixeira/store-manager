@@ -6,3 +6,5 @@ const validateId = (id) => {
   
   return { type: null, message: '' };
 };
+
+module.exports = { validateId };
