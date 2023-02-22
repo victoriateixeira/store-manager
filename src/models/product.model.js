@@ -15,4 +15,10 @@ const findProductById = (productId) => {
   return camelize(result);
 };
 
-module.exports = { findAllProducts, findProductById };
+const addProduct = (name) => {
+  const [{ insertId }] = connection.execute(
+    'INSERT INTO StoreManager.products (name) VALUES (?)', [name],
+  );
+  return insertId;
+};
+module.exports = { findAllProducts, findProductById, addProduct };
