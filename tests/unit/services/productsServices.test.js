@@ -4,7 +4,7 @@ const { productModel } = require('../../../src/models');
 const { expect } = chai;
 const { productService } = require('../../../src/services');
 const { productModel } = require('../../../src/models')
-const {allProducts} = require('./mocks/product.service.mock')
+const {allProducts, newProductWrongName, newAddedProduct} = require('./mocks/product.service.mock')
 
 describe('Unit test for product service layer', function () {
   describe('listing all products', function () {
@@ -21,7 +21,7 @@ describe('Unit test for product service layer', function () {
     });
   });
   describe('searches for a product by id', function () {
-    it('returns an error id the id is not valid', async function () {
+    it('returns an error if the id is not valid', async function () {
       // arrange: Especificamente nesse it não temos um arranjo pois nesse fluxo o model não é chamado!
 
       // act
@@ -56,7 +56,31 @@ describe('Unit test for product service layer', function () {
       expect(result.message).to.deep.equal(allProducts[0]);
     });
   });
-   afterEach(function () {
-     sinon.restore();
-   });
+
+  describe('adds a new product', function () {
+    it('returns an error if the name is not valid', async function () {
+      // arrange: Especificamente nesse it não temos um arranjo pois nesse fluxo o model não é chamado!
+
+      // act
+      const result = await productService.addProduct(newProductWrongName);
+      
+      // assert
+      expect(result.type).to.equal('INVALID_VALUE');
+      expect(result.message).to.equal('"name" length must be at least 5 characters long');
+    });
+    it('returns type null and the new added product', async function () {
+      // arrange: Especificamente nesse it não temos um arranjo pois nesse fluxo o model não é chamado!
+      sinon.stub(productModel, 'addProduct'.resolves(42));
+      sinon.stub(productModel, 'findProductById').resolves(newAddedProduct);
+      // act
+      const result = await productService.addProduct('Iron Man Suit');
+      
+      // assert
+      expect(result.type).to.equal(null);
+      expect(result.message).to.equal(newAddedProduct);
+    });
+    afterEach(function () {
+      sinon.restore();
+    });
+  });
 });

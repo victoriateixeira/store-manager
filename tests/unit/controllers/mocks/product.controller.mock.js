@@ -18,4 +18,9 @@ const allProductsControllerMock = [
   },
 ]
 
-module.exports = { productMock, allProductsControllerMock };
+const newProductMock = {
+  id: 42, 
+  name: 'Iron man suit',
+
+}
+module.exports = { productMock, allProductsControllerMock, newProductMock };

@@ -13,4 +13,13 @@ const allProducts = [
   },
 ]
 
-module.exports = { products };
+const newProductWrongName = {
+  name: 'ab'
+};
+
+const newAddedProduct = {
+  id: 42,
+  name: 'Iron Man Suit'
+}
+
+module.exports = { products, newProductWrongName, newAddedProduct};

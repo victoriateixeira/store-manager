@@ -1,4 +1,5 @@
-const { idSchema, nameSchema } = require('./schemas');
+const { productService } = require('..');
+const { idSchema, nameSchema, quantitySchema } = require('./schemas');
 
 const validateId = (id) => {
   const { error } = idSchema.validate(id);
@@ -18,4 +19,21 @@ const validateName = (name) => {
   return { type: null, message: '' };
 };
 
-module.exports = { validateId, validateName };
+const validateQuantity = (quantity) => {
+  const { error } = quantitySchema.validate(quantity);
+  if (error) {
+    return {
+       type: 'INVALID_VALUE',
+    message: '"quantity" must be greater than or equal to 1',
+  
+    };
+  }
+  return { type: null, message: '' };
+};
+
+const validateProductIdExists = async (productId) => {
+  const error = await productService.findProductById(productId);
+  return error;
+};
+
+module.exports = { validateId, validateName, validateQuantity, validateProductIdExists };

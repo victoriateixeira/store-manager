@@ -13,10 +13,13 @@ const products = [
   },
 ]
 
+newProductModel = {
+  name: 'Iron Man Suit'
+}
 // const productById =  {
 //     id: 1,
 //     name: 'Martelo do Thor',
 // }
   
 
-module.exports = {products, productById}
+module.exports = {products, productById, newProductModel}
