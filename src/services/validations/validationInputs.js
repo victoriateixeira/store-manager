@@ -1,5 +1,5 @@
 // const { productService } = require('..');
-const { findProductById } = require('../product.service');
+
 const { idSchema, nameSchema, quantitySchema } = require('./schemas');
 
 const validateId = (id) => {
@@ -34,18 +34,4 @@ const validateQuantity = (quantity) => {
   return { type: null, message: '' };
 };
 
-const validateProductIdExists = async (productId) => {
-  console.log(typeof productId);
-  const error = await findProductById(productId);
- 
-  if (error) {
-    return {
-       type: 'PRODUCT_NOT_FOUND',
-    message: 'Product not found',
-  
-    };
-  }
-  return { type: null, message: '' };
-};
-
-module.exports = { validateId, validateName, validateQuantity, validateProductIdExists };
+module.exports = { validateId, validateName, validateQuantity };

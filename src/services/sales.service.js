@@ -1,7 +1,7 @@
 const { salesModel } = require('../models');
 const { validateQuantity,
-  validateId,
-  validateProductIdExists } = require('./validations/validationInputs');
+  validateId } = require('./validations/validationInputs');
+const { validateProductIdExists } = require('./validations/validationIdNewSale');
 
 const addNewSale = async (newSale) => {
   newSale.forEach((product) => {
