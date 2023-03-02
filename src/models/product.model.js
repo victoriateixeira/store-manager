@@ -10,7 +10,7 @@ const findAllProducts = () => {
 
 const findProductById = (productId) => {
   const [[result]] = connection.execute(
-    'SELECT * FROM StoreManager.products WHERE id =?', [productId],
+    'SELECT date, product_id, quantity FROM StoreManager.products WHERE id=?', [productId],
   );
   return camelize(result);
 };

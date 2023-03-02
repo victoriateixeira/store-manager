@@ -1,3 +1,4 @@
+const camelize = require('camelize');
 const connection = require('./connection');
 
 const addNewSale = (newSale) => {
@@ -20,4 +21,18 @@ const addNewSale = (newSale) => {
   return sale;
 };
 
-module.exports = { addNewSale };
+const listAllSales = () => {
+  const [result] = connection.execute(
+    'SELECT * FROM StoreManager.sales ORDER BY sale_id, product_id',
+  );
+  return camelize(result);
+};
+
+const getSaleById = (saleId) => {
+  const [[result]] = connection.execute(
+    'SELECT * FROM StoreManager.sales WHERE sale_id=?', [saleId],
+  );
+  return camelize(result);
+};
+
+module.exports = { addNewSale, listAllSales, getSaleById };
