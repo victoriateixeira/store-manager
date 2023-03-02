@@ -33,7 +33,14 @@ const validateQuantity = (quantity) => {
 
 const validateProductIdExists = async (productId) => {
   const error = await productService.findProductById(productId);
-  return error;
+  if (error) {
+    return {
+       type: 'PRODUCT_NOT_FOUND',
+    message: 'Product not found',
+  
+    };
+  }
+  return { type: null, message: '' };
 };
 
 module.exports = { validateId, validateName, validateQuantity, validateProductIdExists };
