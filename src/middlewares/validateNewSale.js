@@ -1,12 +1,20 @@
 const validateNewSaleProductId = (req, res, next) => {
-  const { productId } = req.body;
-  if (!productId) return res.status(400).json({ message: '"productId" is required' });
+  const newSale = req.body;
+  newSale.forEach((product) => {
+    if (!product.productId) return res.status(400).json({ message: '"productId" is required' });
+  });
+  console.log(newSale[0].productId);
+  
   return next();
 };
 
 const validatenewSaleProductQuantity = (req, res, next) => {
-  const { quantity } = req.body;
-  if (!quantity) return res.status(400).json({ message: '"quantity" is required' });
+const newSale = req.body;
+  newSale.forEach((product) => {
+    if (!product.quantity) return res.status(400).json({ message: '"quantity" is required' });
+  });
+  console.log(newSale[0].quantity);
+  
   return next();
 };
 

@@ -1,23 +1,26 @@
 const { productModel } = require('../models');
-const { validationInputs } = require('./validations/validationInputs');
+const { validateId, validateName } = require('./validations/validationInputs');
 
 const findAllProducts = async () => {
-const products = await productModel.findAllProducts();
+  const products = await productModel.findAllProducts();
+
 return { type: null, message: products };
 };
 
 const findProductById = async (productId) => {
-  const error = validationInputs.validateId(productId);
+  const error = validateId(productId);
   if (error.type) { return error; }
 
   const product = await productModel.findProductById(productId);
+  console.log(product, 'OOOOOOOOOOO');
   if (!product) return { type: 'PRODUCT_NOT_FOUND', message: 'Product not found' };
 
   return { type: null, message: product };
 };
 
 const addProduct = async (name) => {
-  const error = validationInputs.validateName(name);
+  const error = validateName(name);
+  console.log(error);
   if (error.type) return error;
 
   const newProductId = await productModel.addProduct(name);

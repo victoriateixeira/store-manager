@@ -1,11 +1,13 @@
 const { salesModel } = require('../models');
-const { validationInputs } = require('./validations/validationInputs');
+const { validateQuantity,
+  validateId,
+  validateProductIdExists } = require('./validations/validationInputs');
 
 const addNewSale = async (newSale) => {
   newSale.forEach((product) => {
-    let error = validationInputs.validateQuantity(product.quantity);
+    let error = validateQuantity(product.quantity);
     if (error.type) { return error; }
-    error = validationInputs.validateProductIdExists(product.productId);
+    error = validateProductIdExists(product.productId);
     if (error.type) { return error; }
   });
   const newAddedSale = await salesModel.addNewSale(newSale);
@@ -18,7 +20,7 @@ const listAllSales = async () => {
 };
 
 const FindSaleById = async (saleId) => {
-  const error = validationInputs.validateId(saleId);
+  const error = validateId(saleId);
   if (error.type) { return error; }
   const sale = await salesModel.getSaleById(saleId);
   if (!sale) return { type: 'SALE_NOT_FOUND', message: 'Sale not found' };

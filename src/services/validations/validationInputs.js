@@ -1,8 +1,10 @@
-const { productService } = require('..');
+// const { productService } = require('..');
+const { findProductById } = require('../product.service');
 const { idSchema, nameSchema, quantitySchema } = require('./schemas');
 
 const validateId = (id) => {
   const { error } = idSchema.validate(id);
+  console.log(error);
   if (error) return { type: 'INVALID_VALUE', message: '"id" must be a number' };
   
   return { type: null, message: '' };
@@ -10,6 +12,7 @@ const validateId = (id) => {
 
 const validateName = (name) => {
   const { error } = nameSchema.validate(name);
+
   if (error) {
  return {
     type: 'INVALID_VALUE',
@@ -32,7 +35,9 @@ const validateQuantity = (quantity) => {
 };
 
 const validateProductIdExists = async (productId) => {
-  const error = await productService.findProductById(productId);
+  console.log(typeof productId);
+  const error = await findProductById(productId);
+ 
   if (error) {
     return {
        type: 'PRODUCT_NOT_FOUND',
