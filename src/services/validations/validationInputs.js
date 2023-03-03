@@ -22,9 +22,15 @@ const validateName = (name) => {
   return { type: null, message: '' };
 };
 
-const validateQuantity = (quantity) => {
-  const { error } = quantitySchema.validate(quantity);
-  if (error) {
+const validateQuantity = (sales) => {
+  const isQuantity = sales
+    .map((sale) => { 
+    const { error } = quantitySchema.validate(sale.quantity);
+    return error;
+    })
+    .every((error) => !error);
+  // const { error } = quantitySchema.validate(quantity);
+  if (!isQuantity) {
     return {
        type: 'INVALID_VALUE',
     message: '"quantity" must be greater than or equal to 1',

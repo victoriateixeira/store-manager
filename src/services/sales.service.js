@@ -4,13 +4,11 @@ const { validateQuantity,
 const { validateProductIdExists } = require('./validations/validationIdNewSale');
 
 const addNewSale = async (newSale) => {
-  newSale.forEach((product) => {
-    let error = validateQuantity(product.quantity);
-    if (error.type) { return error; }
-    error = validateProductIdExists(product.productId);
-    if (error.type) { return error; }
-  });
-  const newAddedSale = await salesModel.addNewSale(newSale);
+  const errorQuantity = validateQuantity(newSale);
+  if (errorQuantity.type) { return errorQuantity; }
+  // const errorId = validateProductIdExists(newSale);
+  // if (errorId.type) { return errorId; }
+const newAddedSale = await salesModel.addNewSale(newSale);
   return { type: null, message: newAddedSale };
 };
 
@@ -19,12 +17,12 @@ const listAllSales = async () => {
   return { type: null, message: salesList };
 };
 
-const FindSaleById = async (saleId) => {
+const findSaleById = async (saleId) => {
   const error = validateId(saleId);
   if (error.type) { return error; }
   const sale = await salesModel.getSaleById(saleId);
-  if (!sale) return { type: 'SALE_NOT_FOUND', message: 'Sale not found' };
+  if (sale.length === 0) return { type: 'SALE_NOT_FOUND', message: 'Sale not found' };
   return { type: null, message: sale };
 };
 
-module.exports = { addNewSale, FindSaleById, listAllSales };
+module.exports = { addNewSale, findSaleById, listAllSales };

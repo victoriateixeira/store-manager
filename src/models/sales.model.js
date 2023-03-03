@@ -22,16 +22,23 @@ await connection.execute(
 
 const listAllSales = async () => {
   const [result] = await connection.execute(
-    'SELECT * FROM StoreManager.sales ORDER BY sale_id, product_id',
+    `SELECT sale_id AS saleId, date, product_id AS productId, quantity 
+    FROM StoreManager.sales_products AS sp 
+    INNER JOIN StoreManager.sales AS s 
+    ON sp.sale_id = s.id ORDER BY saleId, productId`,
   );
-  return camelize(result);
+  return (result);
 };
 
 const getSaleById = async (saleId) => {
-  const [[result]] = await connection.execute(
-    'SELECT date, product_id, quantity FROM StoreManager.sales WHERE sale_id=?', [saleId],
+  const [result] = await connection.execute(
+    `SELECT date, product_id AS productId, quantity 
+    FROM StoreManager.sales_products AS sp
+    INNER JOIN StoreManager.sales AS s
+    ON sp.sale_id = s.id
+    WHERE s.id =? `, [saleId],
   );
-  return camelize(result);
+  return (result);
 };
 
 module.exports = { addNewSale, listAllSales, getSaleById };
