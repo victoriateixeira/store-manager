@@ -22,4 +22,4 @@ const newAddedProduct = {
   "name": 'Iron Man Suit'
 }
 
-module.exports = { products, newProductWrongName, newAddedProduct};
+module.exports = { allProducts, newProductWrongName, newAddedProduct};

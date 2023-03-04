@@ -22,4 +22,4 @@ newProductModel = {
 // }
   
 
-module.exports = {products, productById, newProductModel}
+module.exports = {products, newProductModel}

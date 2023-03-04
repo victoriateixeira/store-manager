@@ -38,7 +38,7 @@ describe('Unit tests for product controller layer', function () {
       await productController.getProductById(req, res);
 
       expect(res.status).to.have.been.calledWith(200);
-      expect(res.json).to.have.been.calledWith(productMock);
+      expect(res.json).to.have.been.calledWithExactly(productMock);
 
     })
   

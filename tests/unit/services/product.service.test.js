@@ -3,7 +3,6 @@ const sinon = require('sinon');
 const { productModel } = require('../../../src/models');
 const { expect } = chai;
 const { productService } = require('../../../src/services');
-const { productModel } = require('../../../src/models')
 const {allProducts, newProductWrongName, newAddedProduct} = require('./mocks/product.service.mock')
 
 describe('Unit test for product service layer', function () {

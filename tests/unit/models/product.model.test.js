@@ -3,7 +3,7 @@ const sinon = require('sinon');
 const { expect } = chai;
 const productModel = require('../../../src/models');
 const connection = require('../../../src/models/connection');
-const { products, newProductModel } = require('../mocks/product.model.mock');
+const { products, newProductModel } = require('./mocks/product.model.mock');
 
 describe('Unit tests for the product model layer', function () {
   it('Retrieving list of all products', async function () {
