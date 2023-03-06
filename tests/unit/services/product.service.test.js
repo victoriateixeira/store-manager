@@ -69,7 +69,7 @@ describe('Unit test for product service layer', function () {
     });
     it('returns type null and the new added product', async function () {
       // arrange: Especificamente nesse it não temos um arranjo pois nesse fluxo o model não é chamado!
-      sinon.stub(productModel, 'addProduct'.resolves(42));
+      sinon.stub(productModel, 'addProduct').resolves(42);
       sinon.stub(productModel, 'findProductById').resolves(newAddedProduct);
       // act
       const result = await productService.addProduct('Iron Man Suit');

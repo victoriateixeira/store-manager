@@ -4,13 +4,18 @@
     "colId": "history",
     "containerId": "",
     "name": "http://localhost:3000/product",
-    "url": "http://localhost:3000/product",
-    "method": "GET",
+    "url": "http://localhost:3000/products/1",
+    "method": "PUT",
     "sortNum": 0,
     "created": "2023-03-02T03:00:58.337Z",
-    "modified": "2023-03-02T03:00:58.337Z",
+    "modified": "2023-03-06T08:10:02.169Z",
     "headers": [],
     "params": [],
+    "body": {
+      "type": "json",
+      "raw": "{\n  \"name\": \"Martelo do america\"\n}",
+      "form": []
+    },
     "tests": []
   },
   {
@@ -18,11 +23,11 @@
     "colId": "history",
     "containerId": "",
     "name": "http://localhost:3000/products",
-    "url": "http://localhost:3000/products/9999",
+    "url": "http://localhost:3000/products",
     "method": "GET",
     "sortNum": 0,
     "created": "2023-03-02T03:02:09.667Z",
-    "modified": "2023-03-03T06:37:21.617Z",
+    "modified": "2023-03-05T06:00:15.505Z",
     "headers": [],
     "params": [],
     "tests": []

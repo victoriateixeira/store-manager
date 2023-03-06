@@ -57,7 +57,7 @@ describe('Unit test for sales service layer', function () {
   //   });
   // });
 
-  describe('adds a new product', function () {
+  describe('adds a new sale', function () {
     it('returns an error if the quantity is not valid', async function () {
       // arrange: Especificamente nesse it não temos um arranjo pois nesse fluxo o model não é chamado!
 
@@ -78,7 +78,7 @@ describe('Unit test for sales service layer', function () {
       expect(result.type).to.equal('PRODUCT_NOT_FOUND');
       expect(result.message).to.equal('Product not found');
     });
-    it('returns type null and the new added product', async function () {
+    it('returns type null and the new added sale', async function () {
       // arrange: Especificamente nesse it não temos um arranjo pois nesse fluxo o model não é chamado!
     
       sinon.stub(salesModel, 'addNewSale').resolves(newAddeSaleMock);

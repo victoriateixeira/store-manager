@@ -1,14 +1,14 @@
 const chai = require('chai');
 const sinon = require('sinon');
 const { expect } = chai;
-const productModel = require('../../../src/models');
+const {productModel} = require('../../../src/models');
 const connection = require('../../../src/models/connection');
 const { products, newProductModel } = require('./mocks/product.model.mock');
 
 describe('Unit tests for the product model layer', function () {
   it('Retrieving list of all products', async function () {
     // Arrange
-    sinon.stub(connection, 'execute').resolves([products]);
+    sinon.stub(connection, 'execute').resolves(products);
     // Act
     const result = await productModel.findAllProducts();
     // Assert
