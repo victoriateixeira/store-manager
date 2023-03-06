@@ -97,6 +97,60 @@ describe('Unit tests for product controller layer', function () {
 
     })
   })
+  describe('Updating product', function () {
+    it('should respond with 200 status new product when successful', async function () {
+      const req = {
+        body: { name: 'Iron Man Suit' },
+        params: {id: 42}
+      };
+      const res = {};
+
+      res.status = sinon.stub().returns(res);
+      res.json = sinon.stub().returns();
+      sinon.stub(productService, 'updateProduct').resolves({type: null, message: newProductMock});
+
+      await productController.updateProduct(req, res);
+
+      expect(res.status).to.have.been.calledWith(201);
+      expect(res.json).to.have.been.calledWith(newProductMock);
+
+    })
+  
+
+    it('should return an error if the name does not exist', async function () {
+    const req = {
+      body: { name: undefined },
+    };
+    const res = {};
+
+    res.status = sinon.stub().returns(res);
+      res.json = sinon.stub().returns();
+
+      await productController.update(req, res);
+
+      expect(res.status).to.have.been.calledWith(400);
+      expect(res.json).to.have.been.calledWith('"name" is required');
+
+
+    })
+    it('should return an error if the id does not exist', async function () {
+    const req = {
+      body: { name: 'Iron Man Suit' },
+      params: { id: 999999}
+    };
+    const res = {};
+
+    res.status = sinon.stub().returns(res);
+      res.json = sinon.stub().returns();
+
+      await productController.updateProduct(req, res);
+
+      expect(res.status).to.have.been.calledWith(404);
+      expect(res.json).to.have.been.calledWith('Product not found');
+
+
+    })
+  })
   afterEach(function () {
     sinon.restore();
   });

@@ -29,6 +29,13 @@ describe('Unit tests for the product model layer', function () {
 
     expect(result).to.equal(42);
   });
+  it('should update a [product in the database', async function () {
+    sinon.stub(connection, 'execute').resolves([{ changedRows: 1 }]);
+
+    const result = await productModel.updateProduct(newProductModel);
+
+    expect(result).to.equal(1);
+  });
   afterEach(function () {
     sinon.restore();
   });

@@ -78,8 +78,42 @@ describe('Unit test for product service layer', function () {
       expect(result.type).to.equal(null);
       expect(result.message).to.equal(newAddedProduct);
     });
-    afterEach(function () {
-      sinon.restore();
+  });
+  describe('updates product', function () {
+    it('returns an error if the name is not valid', async function () {
+      // arrange: Especificamente nesse it não temos um arranjo pois nesse fluxo o model não é chamado!
+
+      // act
+      const result = await productService.updateProduct(newProductWrongName);
+      
+      // assert
+      expect(result.type).to.equal('INVALID_VALUE');
+      expect(result.message).to.equal('"name" length must be at least 5 characters long');
     });
+    it('returnserror if the id is not valid', async function () {
+      // arrange: Especificamente nesse it não temos um arranjo pois nesse fluxo o model não é chamado!
+      sinon.stub(productModel, 'updateProduct').resolves(0);
+      sinon.stub(productService, 'findProductById').resolves({ type: 'PRODUCT_NOT_FOUND', message: 'Product not found' });
+      // act
+      const result = await productService.updateProduct(999999,'Iron Man Suit');
+      
+      // assert
+      expect(result.type).to.equal('PRODUCT_NOT_FOUND');
+      expect(result.message).to.equal('Product not found');
+    });
+    it('returns type null and the new updated product', async function () {
+      // arrange: Especificamente nesse it não temos um arranjo pois nesse fluxo o model não é chamado!
+      sinon.stub(productModel, 'updateProduct').resolves(1);
+      sinon.stub(productService, 'findProductById').resolves(newAddedProduct);
+      // act
+      const result = await productService.updateProduct(42,'Iron Man Suit');
+      
+      // assert
+      expect(result.type).to.equal(null);
+      expect(result.message).to.equal(newAddedProduct);
+    });
+  });
+  afterEach(function () {
+    sinon.restore();
   });
 });
