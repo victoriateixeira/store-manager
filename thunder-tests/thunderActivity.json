@@ -4,18 +4,13 @@
     "colId": "history",
     "containerId": "",
     "name": "http://localhost:3000/product",
-    "url": "http://localhost:3000/products/1",
-    "method": "PUT",
+    "url": "http://localhost:3000/products/3",
+    "method": "DELETE",
     "sortNum": 0,
     "created": "2023-03-02T03:00:58.337Z",
-    "modified": "2023-03-06T08:10:02.169Z",
+    "modified": "2023-03-07T08:03:58.200Z",
     "headers": [],
     "params": [],
-    "body": {
-      "type": "json",
-      "raw": "{\n  \"name\": \"Martelo do america\"\n}",
-      "form": []
-    },
     "tests": []
   },
   {

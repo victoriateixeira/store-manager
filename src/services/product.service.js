@@ -41,4 +41,11 @@ const updateProduct = async (productId, newName) => {
     console.log(updateProduct, 'PRODUCTSERVICE_UPDATEPRODUCT');
     return { type: updatedProduct.type, message: updatedProduct.message };
 };
-module.exports = { findAllProducts, findProductById, addProduct, updateProduct };
+
+const deleteProduct = async (productId) => {
+  const product = await findProductById(productId);
+  if (product.type) { return product; }
+  await productModel.deleteProduct(productId);
+  return { type: null, message: '' };
+};
+module.exports = { findAllProducts, findProductById, addProduct, updateProduct, deleteProduct };
