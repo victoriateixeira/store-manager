@@ -3,7 +3,7 @@ const validateNewSaleProductId = (req, res, next) => {
   newSale.forEach((product) => {
     if (!product.productId) return res.status(400).json({ message: '"productId" is required' });
   });
-  console.log(newSale[0].productId);
+  console.log(newSale[0].productId, 'VALIDATENEWSALE');
   
   return next();
 };
@@ -13,7 +13,7 @@ const newSale = req.body;
   newSale.forEach((product) => {
     if (!product.quantity) return res.status(400).json({ message: '"quantity" is required' });
   });
-  console.log(newSale[0].quantity);
+  console.log(newSale[0].quantity, 'VALIDATENEWSALE');
   
   return next();
 };

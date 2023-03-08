@@ -30,6 +30,7 @@ const validateQuantity = (sales) => {
     })
     .every((error) => !error);
   // const { error } = quantitySchema.validate(quantity);
+  console.log(isQuantity);
   if (!isQuantity) {
     return {
        type: 'INVALID_VALUE',

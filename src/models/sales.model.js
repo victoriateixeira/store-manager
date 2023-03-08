@@ -1,24 +1,5 @@
 const connection = require('./connection');
 
-const addNewSale = async (newSale) => {
-  // const itemsSold = [];
-
-    const [{ insertId }] = await connection.execute(
-      'INSERT INTO StoreManager.sales (date) VALUES(?)', [new Date()],
-    );
-  newSale.forEach(async (item) => {
-await connection.execute(
-      'INSERT INTO StoreManager.sales_products (sale_id, product_id, quantity) VALUES (?, ?, ?)',
-      [insertId, item.productId, item.quantity],
-    );
-  });
-  const sale = {
-  id: insertId,
-  itemsSold: newSale,
-  };
-  return sale;
-};
-
 const listAllSales = async () => {
   const [result] = await connection.execute(
     `SELECT sale_id AS saleId, date, product_id AS productId, quantity 
@@ -38,6 +19,36 @@ const getSaleById = async (saleId) => {
     WHERE s.id =? `, [saleId],
   );
   return (result);
+};
+
+const insertNewSale = async () => {
+  const [{ insertId }] = await connection.execute(
+      'INSERT INTO StoreManager.sales (date) VALUES(?)', [new Date()],
+  );
+  return insertId;
+};
+
+const addNewSale = async (newSale) => {
+  // const itemsSold = [];
+
+    // const [{ insertId }] = await connection.execute(
+    //   'INSERT INTO StoreManager.sales (date) VALUES(?)', [new Date()],
+    // );
+  const insertId = await insertNewSale(); 
+  newSale.forEach(async (item) => {
+await connection.execute(
+      'INSERT INTO StoreManager.sales_products (sale_id, product_id, quantity) VALUES (?, ?, ?)',
+      [insertId, item.productId, item.quantity],
+    );
+  });
+  // const addedSale = await getSaleById(insertId);
+  // const itemsSold = addedSale
+  //   .map((item) => ({ productId: item.productId, quantity: item.quantity }));
+  const sale = {
+  id: insertId,
+  itemsSold: newSale,
+  };
+  return sale;
 };
 
 module.exports = { addNewSale, listAllSales, getSaleById };

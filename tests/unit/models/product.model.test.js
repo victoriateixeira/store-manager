@@ -7,20 +7,19 @@ const { products, newProductModel } = require('./mocks/product.model.mock');
 
 describe('Unit tests for the product model layer', function () {
   it('Retrieving list of all products', async function () {
-    // Arrange
-    sinon.stub(connection, 'execute').resolves(products);
-    // Act
+    sinon.stub(connection, 'execute').resolves([products]);
+
     const result = await productModel.findAllProducts();
-    // Assert
+
     expect(result).to.be.deep.equal(products);
   });
   it('Retrieving an specific product from its id', async function () {
     // Arrange
-    sinon.stub(connection, 'execute').resolves([[products[0]]]);
+    sinon.stub(connection, 'execute').resolves([[[products[0]]]]);
     // Act
     const result = await productModel.findProductById(1);
     // Assert
-    expect(result).to.be.deep.equal(products[0]);
+    expect(result).to.be.deep.equal([products[0]]);
   });
   it('should add a new product to the database', async function () {
     sinon.stub(connection, 'execute').resolves([{ insertId: 42 }]);
@@ -29,7 +28,7 @@ describe('Unit tests for the product model layer', function () {
 
     expect(result).to.equal(42);
   });
-  it('should update a [product in the database', async function () {
+  it('should update a product in the database', async function () {
     sinon.stub(connection, 'execute').resolves([{ changedRows: 1 }]);
 
     const result = await productModel.updateProduct(newProductModel);

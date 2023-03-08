@@ -3,7 +3,9 @@ const sinon = require('sinon');
 const sinonChai = require('sinon-chai');
 const { productService } = require('../../../src/services');
 const { productController } = require('../../../src/controllers');
-const {allProductsControllerMock, productMock, newProductMock} = require('./mocks/product.controller.mock')
+const {allProductsControllerMock, productMock, newProductMock} = require('./mocks/product.controller.mock');
+const { validateNewProductName } = require('../../../src/middlewares/validateNewProductName');
+const { validateNewSaleProductId } = require('../../../src/middlewares/validateNewSale');
 const { expect } = chai;
 chai.use(sinonChai);
 
@@ -43,7 +45,7 @@ describe('Unit tests for product controller layer', function () {
     })
   
 
-    it('should return an error if the id does not exist', async function () {
+    it('should return an error if the product id does not exist', async function () {
     const req = {
       params: {id: 9999}
     };
@@ -56,7 +58,7 @@ describe('Unit tests for product controller layer', function () {
       await productController.getProductById(req, res);
 
       expect(res.status).to.have.been.calledWith(404);
-      expect(res.json).to.have.been.calledWith('Product not found');
+      expect(res.json).to.have.been.calledWith({message: 'Product not found'});
 
 
     })
@@ -89,10 +91,10 @@ describe('Unit tests for product controller layer', function () {
     res.status = sinon.stub().returns(res);
       res.json = sinon.stub().returns();
 
-      await productController.createProduct(req, res);
+      validateNewProductName(req, res);
 
       expect(res.status).to.have.been.calledWith(400);
-      expect(res.json).to.have.been.calledWith('"name" is required');
+      expect(res.json).to.have.been.calledWith({message: '"name" is required'});
 
 
     })
@@ -111,7 +113,7 @@ describe('Unit tests for product controller layer', function () {
 
       await productController.updateProduct(req, res);
 
-      expect(res.status).to.have.been.calledWith(201);
+      expect(res.status).to.have.been.calledWith(200);
       expect(res.json).to.have.been.calledWith(newProductMock);
 
     })
@@ -126,10 +128,10 @@ describe('Unit tests for product controller layer', function () {
     res.status = sinon.stub().returns(res);
       res.json = sinon.stub().returns();
 
-      await productController.update(req, res);
+      validateNewProductName(req, res);
 
       expect(res.status).to.have.been.calledWith(400);
-      expect(res.json).to.have.been.calledWith('"name" is required');
+      expect(res.json).to.have.been.calledWith({message: '"name" is required'});
 
 
     })
@@ -142,11 +144,15 @@ describe('Unit tests for product controller layer', function () {
 
     res.status = sinon.stub().returns(res);
       res.json = sinon.stub().returns();
-
+      sinon.stub(productService, 'updateProduct').resolves({
+       type: 'PRODUCT_NOT_FOUND',
+    message: 'Product not found',
+    });
+      
       await productController.updateProduct(req, res);
 
       expect(res.status).to.have.been.calledWith(404);
-      expect(res.json).to.have.been.calledWith('Product not found');
+      expect(res.json).to.have.been.calledWith({message: 'Product not found'});
 
 
     })

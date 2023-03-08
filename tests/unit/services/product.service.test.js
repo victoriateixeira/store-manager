@@ -12,7 +12,7 @@ describe('Unit test for product service layer', function () {
       sinon.stub(productModel, 'findAllProducts').resolves(allProducts);
       
       // act
-      const result = await passengerService.findAllProducts();
+      const result = await productService.findAllProducts();
 
       // assert
       expect(result.type).to.be.equal(null);
@@ -48,7 +48,7 @@ describe('Unit test for product service layer', function () {
       sinon.stub(productModel, 'findProductById').resolves(allProducts[0]);
       
       // act
-      const result = await productService.findProductsById(1);
+      const result = await productService.findProductById(1);
 
       // assert
       expect(result.type).to.equal(null);
@@ -90,7 +90,7 @@ describe('Unit test for product service layer', function () {
       expect(result.type).to.equal('INVALID_VALUE');
       expect(result.message).to.equal('"name" length must be at least 5 characters long');
     });
-    it('returnserror if the id is not valid', async function () {
+    it('returns error if the id is not valid', async function () {
       // arrange: Especificamente nesse it não temos um arranjo pois nesse fluxo o model não é chamado!
       sinon.stub(productModel, 'updateProduct').resolves(0);
       sinon.stub(productService, 'findProductById').resolves({ type: 'PRODUCT_NOT_FOUND', message: 'Product not found' });
@@ -101,10 +101,10 @@ describe('Unit test for product service layer', function () {
       expect(result.type).to.equal('PRODUCT_NOT_FOUND');
       expect(result.message).to.equal('Product not found');
     });
-    it('returns type null and the new updated product', async function () {
+    it.only('returns type null and the new updated product', async function () {
       // arrange: Especificamente nesse it não temos um arranjo pois nesse fluxo o model não é chamado!
       sinon.stub(productModel, 'updateProduct').resolves(1);
-      sinon.stub(productService, 'findProductById').resolves(newAddedProduct);
+      sinon.stub(productService, 'findProductById').resolves({ type: null, message: newAddedProduct });
       // act
       const result = await productService.updateProduct(42,'Iron Man Suit');
       
