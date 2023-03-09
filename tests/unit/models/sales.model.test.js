@@ -16,6 +16,13 @@ describe('Unit tests for the sales model layer', function () {
 
     expect(result).to.equal(newAddeSaleMock);
   });
+  it('should delete a sale from the database', async function () {
+    sinon.stub(connection, 'execute').resolves([{affectedRows: 1}]);
+
+    const result = await salesModel.deleteSale(42);
+
+    expect(result).to.equal(1);
+  });
   afterEach(function () {
     sinon.restore();
   });

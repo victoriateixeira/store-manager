@@ -52,10 +52,11 @@ await connection.execute(
 };
 
 const deleteSale = async (saleId) => {
-  await connection.execute(
+  const [{ affectedRows }] = await connection.execute(
     `DELETE FROM StoreManager.sales
     WHERE id = ?`, [saleId],
   );
+  return affectedRows;
 };
 
 module.exports = { addNewSale, listAllSales, getSaleById, deleteSale };

@@ -93,4 +93,32 @@ describe('Unit test for sales service layer', function () {
       sinon.restore();
     });
   });
+   describe.only('Deletes a new sale', function () {
+
+    it('returns an error if the productId is not found', async function () {
+      // arrange: Especificamente nesse it não temos um arranjo pois nesse fluxo o model não é chamado!
+sinon.stub(salesService, 'findSaleById').resolves({ type: 'SALE_NOT_FOUND', message: 'Sale not found' });
+      // act
+      const result = await salesService.deleteSale(9999);
+      
+      // assert
+      expect(result.type).to.equal('SALE_NOT_FOUND');
+      expect(result.message).to.equal('Sale not found');
+    });
+  
+    it('returns type null and the new added sale', async function () {
+      // arrange: Especificamente nesse it não temos um arranjo pois nesse fluxo o model não é chamado!
+    sinon.stub(salesService, 'findSaleById').resolves({ type: null });
+      sinon.stub(salesModel, 'deleteSale').resolves(1);
+      // act
+      const result = await salesService.deleteSale(42);
+      
+      // assert
+      expect(result.type).to.equal(null);
+      expect(result.message).to.equal('');
+    });
+    afterEach(function () {
+      sinon.restore();
+    });
+  });
 });

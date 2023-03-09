@@ -107,6 +107,44 @@ describe('Unit tests for sales controller layer', function () {
     });
   
   });
+
+  describe.only('Deleting product', function () {
+    it('should respond with 204 status  when successful', async function () {
+      const req = {
+        params: {id: 42}
+      };
+      const res = {};
+
+      res.status = sinon.stub().returns(res);
+      res.json = sinon.stub().returns();
+      sinon.stub(salesService, 'deleteSale').resolves({type: null, message: ''});
+
+      await salesController.deleteSale(req, res);
+
+      expect(res.status).to.have.been.calledWith(204);
+      expect(res.json).to.not.have.been.called();
+
+    })
+  
+
+    it('should return an error if the id does not exist', async function () {
+    const req = {
+      params: { id: 999999 },
+    };
+    const res = {};
+
+    res.status = sinon.stub().returns(res);
+      res.json = sinon.stub().returns();
+
+      sinon.stub(salesService, 'deleteSale').resolves({ type: 'SALE_NOT_FOUND', message: 'Sale not found' });
+
+      await salesController.deleteSale(req, res);
+
+      expect(res.status).to.have.been.calledWith(404);
+      expect(res.json).to.have.been.calledWith({message: 'Sale not found'});
+    })
+    
+  })
   afterEach(function () {
     sinon.restore();
   });
