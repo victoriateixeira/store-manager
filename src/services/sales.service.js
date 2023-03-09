@@ -28,9 +28,11 @@ const findSaleById = async (saleId) => {
 
 const deleteSale = async (saleId) => {
   const isSale = await findSaleById(saleId);
-  if (isSale.type) return { isSale };
+  console.log(isSale, 'SALESSERVICE/DELETESALE');
+
+  if (isSale.type) { return isSale; }
   await salesModel.deleteSale(saleId);
-   return { type: null, message: '' };
+  return { type: null, message: '' };
 };
 
 module.exports = { addNewSale, findSaleById, listAllSales, deleteSale };
