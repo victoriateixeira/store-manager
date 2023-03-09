@@ -35,6 +35,14 @@ describe('Unit tests for the product model layer', function () {
 
     expect(result).to.equal(1);
   });
+  it.only('should delete a product from the database', async function () {
+    const id = 42;
+    sinon.stub(connection, 'execute').resolves([{ affectedRows: 1 }]);
+
+    const result = await productModel.deleteProduct(id);
+
+    expect(result).to.equal(1);
+  });
   afterEach(function () {
     sinon.restore();
   });

@@ -157,6 +157,44 @@ describe('Unit tests for product controller layer', function () {
 
     })
   })
+
+  describe('Deleting product', function () {
+    it('should respond with 204 status  when successful', async function () {
+      const req = {
+        params: {id: 42}
+      };
+      const res = {};
+
+      res.status = sinon.stub().returns(res);
+      res.json = sinon.stub().returns();
+      sinon.stub(productService, 'deleteProduct').resolves({type: null, message: ''});
+
+      await productController.deleteProduct(req, res);
+
+      expect(res.status).to.have.been.calledWith(204);
+      expect(res.json).to.not.have.been.called();
+
+    })
+  
+
+    it('should return an error if the id does not exist', async function () {
+    const req = {
+      params: { id: 999999 },
+    };
+    const res = {};
+
+    res.status = sinon.stub().returns(res);
+      res.json = sinon.stub().returns();
+
+      sinon.stub(productService, 'deleteProduct').resolves({ type: 'PRODUCT_NOT_FOUND', message: 'Product not found' });
+
+      await productController.deleteProduct(req, res);
+
+      expect(res.status).to.have.been.calledWith(404);
+      expect(res.json).to.have.been.calledWith({message: 'Product not found'});
+    })
+    
+  })
   afterEach(function () {
     sinon.restore();
   });

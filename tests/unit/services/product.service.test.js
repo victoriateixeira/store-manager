@@ -1,5 +1,6 @@
 const chai = require('chai');
 const sinon = require('sinon');
+const sinonChai = require('sinon-chai');
 const { productModel } = require('../../../src/models');
 const { expect } = chai;
 const { productService } = require('../../../src/services');
@@ -90,10 +91,9 @@ describe('Unit test for product service layer', function () {
       expect(result.type).to.equal('INVALID_VALUE');
       expect(result.message).to.equal('"name" length must be at least 5 characters long');
     });
-    it('returns error if the id is not valid', async function () {
-      // arrange: Especificamente nesse it não temos um arranjo pois nesse fluxo o model não é chamado!
-      sinon.stub(productModel, 'updateProduct').resolves(0);
+    it('returns error if the id is not found', async function () {
       sinon.stub(productService, 'findProductById').resolves({ type: 'PRODUCT_NOT_FOUND', message: 'Product not found' });
+      // sinon.stub(productModel, 'updateProduct').resolves(0);
       // act
       const result = await productService.updateProduct(999999,'Iron Man Suit');
       
@@ -101,8 +101,7 @@ describe('Unit test for product service layer', function () {
       expect(result.type).to.equal('PRODUCT_NOT_FOUND');
       expect(result.message).to.equal('Product not found');
     });
-    it.only('returns type null and the new updated product', async function () {
-      // arrange: Especificamente nesse it não temos um arranjo pois nesse fluxo o model não é chamado!
+    it('returns type null and the new updated product', async function () {
       sinon.stub(productModel, 'updateProduct').resolves(1);
       sinon.stub(productService, 'findProductById').resolves({ type: null, message: newAddedProduct });
       // act
@@ -113,7 +112,32 @@ describe('Unit test for product service layer', function () {
       expect(result.message).to.equal(newAddedProduct);
     });
   });
-  afterEach(function () {
-    sinon.restore();
+
+  describe('Deletes product', function () {
+   
+    it('returns error if the id is not found', async function () {
+
+      sinon.stub(productService, 'findProductById').resolves({ type: 'PRODUCT_NOT_FOUND', message: 'Product not found' });
+      // sinon.stub(productModel, 'deleteProduct').resolves(0);
+      // act
+      const result = await productService.deleteProduct(999999);
+      
+      // assert
+      expect(result.type).to.equal('PRODUCT_NOT_FOUND');
+      expect(result.message).to.equal('Product not found');
+    });
+    it('returns type null and empty string message', async function () {
+      sinon.stub(productService, 'findProductById').resolves({ type: null, message: '' });
+      sinon.stub(productModel, 'deleteProduct').resolves(1);
+      // act
+      const result = await productService.deleteProduct(42);
+      
+      // assert
+      expect(result.type).to.equal(null);
+      expect(result.message).to.equal('');
+    });
+    afterEach(function () {
+      sinon.restore();
+    });
   });
 });
