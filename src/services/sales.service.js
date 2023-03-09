@@ -35,4 +35,14 @@ const deleteSale = async (saleId) => {
   return { type: null, message: '' };
 };
 
-module.exports = { addNewSale, findSaleById, listAllSales, deleteSale };
+const updateSale = async (saleId, updatedSale) => {
+   const isSale = await findSaleById(saleId);
+  if (isSale.type) { return isSale; }
+  const errorQuantity = validationInputs.validateQuantity(updatedSale);
+  if (errorQuantity.type) { return errorQuantity; }
+  const errorId = validateProductIdExists(updatedSale);
+  if (errorId.type) { return errorId; }
+  const changedSale = await salesModel.updateSale(saleId, updatedSale);
+  return { type: null, message: changedSale };
+};
+module.exports = { addNewSale, findSaleById, listAllSales, deleteSale, updateSale };
