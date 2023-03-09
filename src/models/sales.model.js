@@ -59,4 +59,14 @@ const deleteSale = async (saleId) => {
   return affectedRows;
 };
 
-module.exports = { addNewSale, listAllSales, getSaleById, deleteSale };
+const updateSale = async (saleId, updatedSale) => {
+  await deleteSale(saleId);
+  await addNewSale(updateSale);
+  const changedSale = {
+    id: saleId,
+    itemsUpdated: updatedSale,
+  };
+  return changedSale;
+};
+
+module.exports = { addNewSale, listAllSales, getSaleById, deleteSale, updateSale };
