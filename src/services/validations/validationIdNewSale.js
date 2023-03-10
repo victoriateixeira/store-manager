@@ -7,8 +7,8 @@ const validateProductIdExists = async (sales) => {
   console.log(isId, 'VALIDATIONIDNEWSALE');
   if (!isId) {
     return {
-       type: 'PRODUCT_NOT_FOUND',
-    message: 'Product not found',
+      type: 'PRODUCT_NOT_FOUND',
+      message: 'Product not found',
   
     };
   }

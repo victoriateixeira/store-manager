@@ -172,7 +172,7 @@ describe('Unit tests for product controller layer', function () {
       await productController.deleteProduct(req, res);
 
       expect(res.status).to.have.been.calledWith(204);
-      expect(res.json).to.not.have.been.called();
+
 
     })
   

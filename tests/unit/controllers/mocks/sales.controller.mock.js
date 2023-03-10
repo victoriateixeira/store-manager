@@ -3,14 +3,14 @@
 const newSaleReqNoQuant = [
   {
     "productId": 1,
-    "quantity": undefined,
+    "quantity": null,
   },
 ];
 
 
 const newSaleReqNoId = [
   {
-    "productId": undefined,
+    "productId": null,
     "quantity": 1,
   },
 ];

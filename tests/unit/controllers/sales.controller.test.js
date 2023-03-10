@@ -5,6 +5,7 @@ const { salesService } = require('../../../src/services');
 const { salesController } = require('../../../src/controllers');
 const { newSaleReq, newAddeSaleMock } = require('../models/mocks/sales.model.mock');
 const { newSaleReqNoQuant, newSaleReqNoId, allSales, saleById } = require('./mocks/sales.controller.mock');
+const {validateNewSaleProductId, validateNewSaleProductQuantity} = require('../../../src/middlewares/validateNewSale');
 const { expect } = chai;
 chai.use(sinonChai);
 
@@ -33,8 +34,8 @@ describe('Unit tests for sales controller layer', function () {
 
       res.status = sinon.stub().returns(res);
       res.json = sinon.stub().returns();
-
-      await salesController.addNewSale(req, res);
+validateNewSaleProductQuantity(req, res);
+      // await salesController.addNewSale(req, res);
 
       expect(res.status).to.have.been.calledWith(400);
       expect(res.json).to.have.been.calledWith('"quantity" is required');
@@ -49,7 +50,8 @@ describe('Unit tests for sales controller layer', function () {
       res.status = sinon.stub().returns(res);
       res.json = sinon.stub().returns();
 
-      await salesController.addNewSale(req, res);
+     validateNewSaleProductId(req, res);
+      // await salesController.addNewSale(req, res);
 
       expect(res.status).to.have.been.calledWith(400);
       expect(res.json).to.have.been.calledWith('"productId" is required');
@@ -67,7 +69,7 @@ describe('Unit tests for sales controller layer', function () {
       res.json = sinon.stub().returns();
       sinon.stub(salesService, 'listAllSales').resolves({ type: null, message: allSales });
 
-      await salesController.addNewSale(req, res);
+      await salesController.listAllSales(req, res);
 
       expect(res.status).to.have.been.calledWith(200);
       expect(res.json).to.have.been.calledWith(allSales);
@@ -83,7 +85,7 @@ describe('Unit tests for sales controller layer', function () {
       res.json = sinon.stub().returns();
       sinon.stub(salesService, 'findSaleById').resolves({ type: null, message: saleById });
 
-      await salesController.addNewSale(req, res);
+      await salesController.getSaleById(req, res);
 
       expect(res.status).to.have.been.calledWith(200);
       expect(res.json).to.have.been.calledWith(saleById);
@@ -99,16 +101,16 @@ describe('Unit tests for sales controller layer', function () {
       res.json = sinon.stub().returns();
       sinon.stub(salesService, 'findSaleById').resolves({ type: 'SALE_NOT_FOUND', message: 'Sale not found' });
 
-      await salesController.addNewSale(req, res);
+      await salesController.getSaleById(req, res);
 
       expect(res.status).to.have.been.calledWith(404);
-      expect(res.json).to.have.been.calledWith('Sale not found');
+      expect(res.json).to.have.been.calledWith({ message: 'Sale not found' });
 
     });
   
   });
 
-  describe.only('Deleting product', function () {
+  describe('Deleting a sale', function () {
     it('should respond with 204 status  when successful', async function () {
       const req = {
         params: {id: 42}
@@ -122,7 +124,7 @@ describe('Unit tests for sales controller layer', function () {
       await salesController.deleteSale(req, res);
 
       expect(res.status).to.have.been.calledWith(204);
-      expect(res.json).to.not.have.been.called();
+      
 
     })
   

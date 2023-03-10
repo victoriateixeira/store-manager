@@ -4,7 +4,7 @@ const { mapError } = require('../utils/errorMap');
 const addNewSale = async (req, res) => {
   const sales = req.body;
   const { type, message } = await salesService.addNewSale(sales);
-  if (type) return res.status(mapError(type)).json({ message });
+  if (type) { return res.status(mapError(type)).json({ message }); }
   return res.status(201).json(message);
 };
 
@@ -25,7 +25,7 @@ const deleteSale = async (req, res) => {
   const { id } = req.params;
   const { type, message } = await salesService.deleteSale(Number(id));
   if (type) return res.status(mapError(type)).json({ message });
-  return res.status(204).end();
+  return res.status(204).json();
 };
 
 const updateSale = async (req, res) => {

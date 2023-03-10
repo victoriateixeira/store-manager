@@ -2,12 +2,14 @@ const { salesModel } = require('../models');
 const validationInputs = require('./validations/validationInputs');
 // const { validateQuantity,
 //   validateId } = require('./validations/validationInputs');
-const { validateProductIdExists } = require('./validations/validationIdNewSale');
+const validationIdNewSale = require('./validations/validationIdNewSale');
 
 const addNewSale = async (newSale) => {
   const errorQuantity = validationInputs.validateQuantity(newSale);
   if (errorQuantity.type) { return errorQuantity; }
-  const errorId = validateProductIdExists(newSale);
+
+  const errorId = await validationIdNewSale.validateProductIdExists(newSale);
+  console.log(errorId, 'SALESSERVICE_ADDNEWSALE');
   if (errorId.type) { return errorId; }
 const newAddedSale = await salesModel.addNewSale(newSale);
   return { type: null, message: newAddedSale };
@@ -40,7 +42,7 @@ const updateSale = async (saleId, updatedSale) => {
   if (isSale.type) { return isSale; }
   const errorQuantity = validationInputs.validateQuantity(updatedSale);
   if (errorQuantity.type) { return errorQuantity; }
-  const errorId = validateProductIdExists(updatedSale);
+  const errorId = validationIdNewSale.validateProductIdExists(updatedSale);
   if (errorId.type) { return errorId; }
   const changedSale = await salesModel.updateSale(saleId, updatedSale);
   return { type: null, message: changedSale };

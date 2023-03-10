@@ -61,7 +61,7 @@ const deleteSale = async (saleId) => {
 
 const updateSale = async (saleId, updatedSale) => {
   await deleteSale(saleId);
-  await addNewSale(updateSale);
+  await addNewSale(updatedSale);
   const changedSale = {
     id: saleId,
     itemsUpdated: updatedSale,
