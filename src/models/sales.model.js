@@ -29,12 +29,16 @@ const insertNewSale = async () => {
 };
 
 const addNewSale = async (newSale) => {
-  // const itemsSold = [];
-
-    // const [{ insertId }] = await connection.execute(
-    //   'INSERT INTO StoreManager.sales (date) VALUES(?)', [new Date()],
-    // );
   const insertId = await insertNewSale(); 
+
+//     newSale.map(async (item) => {
+// const [{ affectedRows }] = await connection.execute(
+//       'INSERT INTO StoreManager.sales_products (sale_id, product_id, quantity) VALUES (?, ?, ?)',
+//       [insertId, item.productId, item.quantity],
+// );
+//       console.log(affectedRows, 'SALESMODEL_ADDNEWSALE');
+//       return affectedRows;
+//   });
   newSale.forEach(async (item) => {
 await connection.execute(
       'INSERT INTO StoreManager.sales_products (sale_id, product_id, quantity) VALUES (?, ?, ?)',
@@ -69,4 +73,4 @@ const updateSale = async (saleId, updatedSale) => {
   return changedSale;
 };
 
-module.exports = { addNewSale, listAllSales, getSaleById, deleteSale, updateSale };
+module.exports = { addNewSale, listAllSales, getSaleById, deleteSale, updateSale, insertNewSale };

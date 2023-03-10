@@ -29,7 +29,9 @@ describe('Unit tests for sales controller layer', function () {
   
 
     it('should return an error if the quantity is undefined', async function () {
-      const req = newSaleReqNoQuant;
+      const req = {
+        body: newSaleReqNoQuant
+      }
       const res = {};
 
       res.status = sinon.stub().returns(res);
@@ -38,13 +40,15 @@ validateNewSaleProductQuantity(req, res);
       // await salesController.addNewSale(req, res);
 
       expect(res.status).to.have.been.calledWith(400);
-      expect(res.json).to.have.been.calledWith('"quantity" is required');
+      expect(res.json).to.have.been.calledWith({ message: '"quantity" is required' });
 
 
     })
   
     it('should return an error if the productId is undefined', async function () {
-      const req = newSaleReqNoId;
+   const req = {
+        body: newSaleReqNoId
+      }
       const res = {};
 
       res.status = sinon.stub().returns(res);
@@ -54,7 +58,7 @@ validateNewSaleProductQuantity(req, res);
       // await salesController.addNewSale(req, res);
 
       expect(res.status).to.have.been.calledWith(400);
-      expect(res.json).to.have.been.calledWith('"productId" is required');
+      expect(res.json).to.have.been.calledWith({ message: '"productId" is required' });
 
 
     });
