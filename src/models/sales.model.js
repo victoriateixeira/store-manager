@@ -28,31 +28,25 @@ const insertNewSale = async () => {
   return insertId;
 };
 
-const addNewSale = async (newSale) => {
-  const insertId = await insertNewSale(); 
-
-//     newSale.map(async (item) => {
-// const [{ affectedRows }] = await connection.execute(
+const addNewSale = async (item, insertId) => {
+  const result = await connection.execute(
+    'INSERT INTO StoreManager.sales_products (sale_id, product_id, quantity) VALUES (?, ?, ?)',
+     [insertId, item.productId, item.quantity],
+  );
+  console.log(result, 'SALESMODEL_ADDNEWSALE');
+  return result;
+//   newSale.forEach(async (item) => {
+// await connection.execute(
 //       'INSERT INTO StoreManager.sales_products (sale_id, product_id, quantity) VALUES (?, ?, ?)',
 //       [insertId, item.productId, item.quantity],
-// );
-//       console.log(affectedRows, 'SALESMODEL_ADDNEWSALE');
-//       return affectedRows;
+//     );
 //   });
-  newSale.forEach(async (item) => {
-await connection.execute(
-      'INSERT INTO StoreManager.sales_products (sale_id, product_id, quantity) VALUES (?, ?, ?)',
-      [insertId, item.productId, item.quantity],
-    );
-  });
-  // const addedSale = await getSaleById(insertId);
-  // const itemsSold = addedSale
-  //   .map((item) => ({ productId: item.productId, quantity: item.quantity }));
-  const sale = {
-  id: insertId,
-  itemsSold: newSale,
-  };
-  return sale;
+
+  // const sale = {
+  // id: insertId,
+  // itemsSold: newSale,
+  // };
+  // return sale;
 };
 
 const deleteSale = async (saleId) => {
@@ -64,13 +58,19 @@ const deleteSale = async (saleId) => {
 };
 
 const updateSale = async (saleId, updatedSale) => {
-  await deleteSale(saleId);
-  await addNewSale(updatedSale);
-  const changedSale = {
-    id: saleId,
-    itemsUpdated: updatedSale,
-  };
-  return changedSale;
+  newSale.forEach(async (item) => {
+await connection.execute(
+      'UPDATE StoreManager.sales_products (sale_id, product_id, quantity) VALUES (?, ?, ?)',
+      [insertId, item.productId, item.quantity],
+    );
+  });
+  // await deleteSale(saleId);
+  // await addNewSale(updatedSale);
+  // const changedSale = {
+  //   id: saleId,
+  //   itemsUpdated: updatedSale,
+  // };
+  // return changedSale;
 };
 
 module.exports = { addNewSale, listAllSales, getSaleById, deleteSale, updateSale, insertNewSale };
