@@ -29,24 +29,11 @@ const insertNewSale = async () => {
 };
 
 const addNewSale = async (item, insertId) => {
-  const result = await connection.execute(
+  const [{ affectedRows }] = await connection.execute(
     'INSERT INTO StoreManager.sales_products (sale_id, product_id, quantity) VALUES (?, ?, ?)',
      [insertId, item.productId, item.quantity],
   );
-  console.log(result, 'SALESMODEL_ADDNEWSALE');
-  return result;
-//   newSale.forEach(async (item) => {
-// await connection.execute(
-//       'INSERT INTO StoreManager.sales_products (sale_id, product_id, quantity) VALUES (?, ?, ?)',
-//       [insertId, item.productId, item.quantity],
-//     );
-//   });
-
-  // const sale = {
-  // id: insertId,
-  // itemsSold: newSale,
-  // };
-  // return sale;
+  return affectedRows;
 };
 
 const deleteSale = async (saleId) => {
@@ -57,13 +44,15 @@ const deleteSale = async (saleId) => {
   return affectedRows;
 };
 
-const updateSale = async (saleId, updatedSale) => {
-  newSale.forEach(async (item) => {
-await connection.execute(
-      'UPDATE StoreManager.sales_products (sale_id, product_id, quantity) VALUES (?, ?, ?)',
-      [insertId, item.productId, item.quantity],
-    );
-  });
+const updateSale = async (saleId, item) => {
+  const [{ affectedRows }] = await connection.execute(
+    `UPDATE StoreManager.sales_products 
+     SET  quantity = ?
+     WHERE sale_id=? AND product_id=?`,
+    [item.quantity, saleId, item.productId],
+  );
+ 
+  return affectedRows;
   // await deleteSale(saleId);
   // await addNewSale(updatedSale);
   // const changedSale = {

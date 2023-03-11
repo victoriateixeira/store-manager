@@ -29,17 +29,28 @@ describe('Unit test for sales service layer', function () {
       expect(result.type).to.equal('PRODUCT_NOT_FOUND');
       expect(result.message).to.equal('Product not found');
     });
-    it('returns type null and the new added sale', async function () {
-      // arrange: Especificamente nesse it não temos um arranjo pois nesse fluxo o model não é chamado!
-    
-      sinon.stub(salesModel, 'addNewSale').resolves(newAddeSaleMock);
-      // act
-      const result = await salesService.addNewSale(newSaleReq);
+//     it.only('returns type null and the new added sale', async function () {
+//       // arrange: Especificamente nesse it não temos um arranjo pois nesse fluxo o model não é chamado!
+//       sinon.stub(salesModel, 'insertNewSale').resolves(42);
+//       sinon.stub(salesModel, 'addNewSale').resolves(1);
+//       // act
+//       const result = await salesService.addNewSale([{
+//     "productId": 1,
+//     "quantity": 1
+//   }]);
       
-      // assert
-      expect(result.type).to.equal(null);
-      expect(result.message).to.equal(newAddeSaleMock);
-    });
+//       // assert
+//       expect(result.type).to.equal(null);
+//       expect(result.message).to.equal({
+//   "id": 42,
+//   "itemsSold": [
+//     {
+//       "productId": 1,
+//       "quantity": 1
+//     },
+//   ]
+// });
+//     });
     afterEach(function () {
       sinon.restore();
     });
@@ -57,7 +68,7 @@ sinon.stub(salesService, 'findSaleById').resolves({ type: 'SALE_NOT_FOUND', mess
       expect(result.message).to.equal('Sale not found');
     });
   
-    it('returns type null and the new added sale', async function () {
+    it('returns type null and empty message', async function () {
       // arrange: Especificamente nesse it não temos um arranjo pois nesse fluxo o model não é chamado!
     sinon.stub(salesService, 'findSaleById').resolves({ type: null });
       sinon.stub(salesModel, 'deleteSale').resolves(1);

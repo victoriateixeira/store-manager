@@ -37,16 +37,16 @@
     "colId": "history",
     "containerId": "",
     "name": "http://localhost:3000/sales",
-    "url": "http://localhost:3000/sales/3",
+    "url": "http://localhost:3000/sales/1",
     "method": "PUT",
     "sortNum": 0,
     "created": "2023-03-02T05:52:38.914Z",
-    "modified": "2023-03-11T14:26:35.728Z",
+    "modified": "2023-03-11T15:21:16.045Z",
     "headers": [],
     "params": [],
     "body": {
       "type": "json",
-      "raw": "[\n  {\n    \"productId\": 1,\n    \"quantity\": 10\n  },\n  {\n    \"productId\": 2,\n    \"quantity\": 50\n  }\n]",
+      "raw": "[\n  {\n    \"productId\": 1,\n    \"quantity\": 40\n  },\n  {\n    \"productId\": 2,\n    \"quantity\": 60\n  }\n]",
       "form": []
     },
     "tests": []
@@ -57,10 +57,10 @@
     "containerId": "",
     "name": "http://localhost:3000/sales",
     "url": "http://localhost:3000/sales",
-    "method": "POST",
+    "method": "GET",
     "sortNum": 0,
     "created": "2023-03-03T05:36:34.938Z",
-    "modified": "2023-03-11T14:36:41.421Z",
+    "modified": "2023-03-11T15:20:53.218Z",
     "headers": [],
     "params": [],
     "body": {

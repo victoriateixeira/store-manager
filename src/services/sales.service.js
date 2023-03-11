@@ -56,7 +56,13 @@ const updateSale = async (saleId, updatedSale) => {
   const errorId = await validateProductIdExists(updatedSale);
   console.log(errorId, 'SALESSERVICE_ERRORID');
   if (errorId.type) { return errorId; }
-  const changedSale = await salesModel.updateSale(saleId, updatedSale);
+  updatedSale.forEach(async (item) => {
+    await salesModel.updateSale(saleId, item);
+  });
+  const changedSale = {
+    saleId,
+    itemsUpdated: updatedSale,
+  };
   return { type: null, message: changedSale };
 };
 module.exports = { addNewSale, findSaleById, listAllSales, deleteSale, updateSale };
