@@ -37,4 +37,21 @@ const deleteProduct = async (req, res) => {
   if (type) return res.status(mapError(type)).json({ message });
   return res.status(204).json();
 };
-module.exports = { listProducts, getProductById, createProduct, updateProduct, deleteProduct };
+
+const searchesProduct = async (req, res) => {
+  const { q } = req.query;
+  if (!q) {
+    const { message } = await productService.findAllProducts();
+    return res.status(200).json(message);
+  }
+  const { message } = await productService.searchesProduct(q);
+  return res.status(200).json(message);
+};
+module.exports = {
+  listProducts,
+  getProductById,
+  createProduct,
+  updateProduct,
+  deleteProduct,
+  searchesProduct,
+};

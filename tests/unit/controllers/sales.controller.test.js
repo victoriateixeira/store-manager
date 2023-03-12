@@ -151,6 +151,57 @@ validateNewSaleProductQuantity(req, res);
     })
     
   })
+
+   describe('Updating a sale', function () {
+    it('should respond with 200 status  when successful', async function () {
+      const req = {
+        params: { id: 1 }, 
+        body: [
+  {
+    "productId": 1,
+    "quantity": 1,
+  },
+]
+      };
+      const res = {};
+
+      res.status = sinon.stub().returns(res);
+      res.json = sinon.stub().returns();
+      sinon.stub(salesService, 'updateSale').resolves({type: null, message: { saleId: 1, itemsUpdated: [ { productId: 1, quantity: 1 } ] } });
+
+      await salesController.updateSale(req, res);
+
+      expect(res.status).to.have.been.calledWith(200);
+      expect(res.json).to.have.been.calledWith({ saleId: 1, itemsUpdated: [ { productId: 1, quantity: 1 } ] } );
+      
+
+    })
+  
+
+    it('should return an error if the id does not exist', async function () {
+    const req = {
+      params: { id: 999999 },
+      body: [
+  {
+    "productId": 1,
+    "quantity": 1,
+  },
+]
+    };
+    const res = {};
+
+    res.status = sinon.stub().returns(res);
+      res.json = sinon.stub().returns();
+
+      sinon.stub(salesService, 'updateSale').resolves({ type: 'SALE_NOT_FOUND', message: 'Sale not found' });
+
+      await salesController.deleteSale(req, res);
+
+      expect(res.status).to.have.been.calledWith(404);
+      expect(res.json).to.have.been.calledWith({message: 'Sale not found'});
+    })
+    
+  })
   afterEach(function () {
     sinon.restore();
   });

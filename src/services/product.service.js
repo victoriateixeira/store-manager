@@ -48,4 +48,21 @@ const deleteProduct = async (productId) => {
   await productModel.deleteProduct(productId);
   return { type: null, message: '' };
 };
-module.exports = { findAllProducts, findProductById, addProduct, updateProduct, deleteProduct };
+
+const searchesProduct = async (name) => {
+  // if (!name) {
+  //   const allProducts = await productModel.findAllProducts;
+  //   return { type: null, message: allProducts };
+  // }
+  const allProducts = await productModel.findAllProducts();
+  const searchedProducts = allProducts.filter((product) => product.name.includes(name));
+  return { type: null, message: searchedProducts };
+};
+module.exports = {
+  findAllProducts,
+  findProductById,
+  addProduct,
+  updateProduct,
+  deleteProduct,
+  searchesProduct,
+};
